@@ -9,28 +9,28 @@ before_install:
   - docker build -t jwdo3015/react-test-app -f ./frontend/Dockerfile.dev ./frontend
 
 script:
-  - docker run -e CI=true jwdo3015/react-test-app npm test
+  - docker run -e CI=true jwdo3015/react-test-app npm run test
 
 after_success:
   - docker build -t jwdo3015/docker-frontend ./frontend
   - docker build -t jwdo3015/docker-backend ./backend
   - docker build -t jwdo3015/docker-nginx ./nginx
 
-  - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin
+  - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin #--password-stdin -> stdin(표준입력장치)에서 비밀번호를 가져옵니다.
 
   - docker push jwdo3015/docker-frontend
   - docker push jwdo3015/docker-backend
   - docker push jwdo3015/docker-nginx
 
-deploy:
-  provider: elasticbeanstalk
-  region: "ap-northeast-2"
-  app: "docker-fullstack-app"
-  env: "DockerFullstackApp-env"
-  bucket_name: elasticbeanstalk-ap-northeast-2-972153559337
-  bucket_path: "docker-fullstack-app"
-  on:
-    branch: master
-  
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key: $AWS_SECRET_ACCESS_KEY
+#deploy:
+#  provider: elasticbeanstalk
+#  region: "ap-northeast-2"
+#  app: "docker-fullstack-app"
+#  env: "DockerFullstackApp-env"
+#  bucket_name: elasticbeanstalk-ap-northeast-2-972153559337
+#  bucket_path: "docker-fullstack-app"
+#  on:
+#    branch: master
+#  
+#  access_key_id: $AWS_ACCESS_KEY
+#  secret_access_key: $AWS_SECRET_ACCESS_KEY
