@@ -60,7 +60,7 @@ function App() {
           <form className="example" onSubmit={submitHandler}>
             <input
               type="text"
-              placeholder="입력해주세요..."
+              placeholder="입력해주세요."
               onChange={changeHandler}
               value={value}
             />
